@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 
 app = Flask(__name__)
 
@@ -51,29 +52,57 @@ def add():
 @app.route("/expense")
 def viewExpense():
 
-    # Fetch all expenses from the database
-    expenses = Expense.query.all()
+    search = request.args.get("search", "")
+    sort = request.args.get("sort", "")
 
-    # Calculate total expense
+    query = Expense.query
+
+    # Search
+    if search:
+        query = query.filter(
+            Expense.event.ilike(f"%{search}%")
+        )
+
+    # Sorting
+    if sort == "date_desc":
+        query = query.order_by(desc(Expense.date))
+
+    elif sort == "date_asc":
+        query = query.order_by(Expense.date)
+
+    elif sort == "amount_desc":
+        query = query.order_by(desc(Expense.amount))
+
+    elif sort == "amount_asc":
+        query = query.order_by(Expense.amount)
+
+    elif sort == "event_asc":
+        query = query.order_by(Expense.event)
+
+    elif sort == "event_desc":
+        query = query.order_by(desc(Expense.event))
+
+    expenses = query.all()
+
     total = sum(expense.amount for expense in expenses)
 
-    # Calculate category-wise summary
     category_summary = {}
 
     for expense in expenses:
-        category = expense.event
 
-        if category in category_summary:
-            category_summary[category] += expense.amount
+        if expense.event in category_summary:
+            category_summary[expense.event] += expense.amount
         else:
-            category_summary[category] = expense.amount
+            category_summary[expense.event] = expense.amount
 
     return render_template(
         "expenses.html",
         expenses=expenses,
         total=total,
         total_transactions=len(expenses),
-        category_summary=category_summary
+        category_summary=category_summary,
+        search=search,
+        sort=sort
     )
 
 @app.route("/delete/<int:id>")
