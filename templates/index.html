@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+
+    <div class="text-center">
+
+        <h1 class="display-4">
+            Expense Tracker
+        </h1>
+
+        <p class="lead">
+            Manage your daily expenses with ease.
+        </p>
+
+    </div>
+
+    <div class="row justify-content-center mt-5">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-body text-center">
+
+                    <h3 class="mb-4">
+                        Dashboard
+                    </h3>
+
+                    <a href="/add" class="btn btn-success btn-lg m-2">
+                        Add Expense
+                    </a>
+
+                    <a href="/expense" class="btn btn-primary btn-lg m-2">
+                        View Expenses
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+{% endblock %}

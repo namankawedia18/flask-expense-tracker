@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block title %}
+Expense Dashboard
+{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-4">
+
+        <h1 class="text-center mb-4">
+            Expense Dashboard
+        </h1>
+
+        <!-- Statistics Cards -->
+
+        <div class="row mb-4">
+
+            <div class="col-md-6">
+
+                <div class="card text-white bg-primary shadow">
+
+                    <div class="card-body">
+
+                        <h5>Total Expenses</h5>
+
+                        <h2>₹{{ total }}</h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="card text-white bg-success shadow">
+
+                    <div class="card-body">
+
+                        <h5>Total Transactions</h5>
+
+                        <h2>{{ total_transactions }}</h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Expense Table -->
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-dark text-white">
+
+                <h4 class="mb-0">
+                    All Expenses
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                {% if expenses %}
+
+                <table class="table table-striped table-hover align-middle">
+
+                    <thead class="table-secondary">
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Event</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for item in expenses %}
+
+                        <tr>
+
+                            <td>{{ item.id }}</td>
+
+                            <td>{{ item.date }}</td>
+
+                            <td>{{ item.event }}</td>
+
+                            <td>₹{{ "%.2f"|format(item.amount) }}</td>
+
+                            <td>
+
+                                <a href="{{ url_for('editExpense', id=item.id) }}"
+                                   class="btn btn-warning btn-sm">
+                                    Edit
+                                </a>
+
+                                <a href="{{ url_for('deleteExpense', id=item.id) }}"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Are you sure you want to delete this expense?');">
+                                    Delete
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+                {% else %}
+
+                <div class="alert alert-info text-center">
+
+                    No expenses found.
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- Category Summary -->
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-secondary text-white">
+
+                <h4 class="mb-0">
+                    Category Summary
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                {% if category_summary %}
+
+                <table class="table table-bordered">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Category</th>
+                            <th>Total Amount</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for category, amount in category_summary.items() %}
+
+                        <tr>
+
+                            <td>{{ category }}</td>
+
+                            <td>₹{{ "%.2f"|format(amount) }}</td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+                {% else %}
+
+                <div class="alert alert-warning text-center">
+
+                    No category data available.
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- Add Expense Button -->
+
+        <div class="text-center mb-5">
+
+            <a href="{{ url_for('add') }}" class="btn btn-success btn-lg">
+
+                + Add New Expense
+
+            </a>
+
+        </div>
+
+    </div>
+
+{% endblock %}
