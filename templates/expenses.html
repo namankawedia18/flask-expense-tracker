@@ -6,43 +6,25 @@ Expense Dashboard
 
 {% block content %}
 
-    <div class="container mt-4">
+<div class="container mt-4">
 
-        <h1 class="text-center mb-4">
-            Expense Dashboard
-        </h1>
+    <h1 class="text-center mb-4">
+        Expense Dashboard
+    </h1>
 
-        <!-- Statistics Cards -->
+    <!-- Statistics Cards -->
 
-        <div class="row mb-4">
+    <div class="row mb-4">
 
-            <div class="col-md-6">
+        <div class="col-md-6">
 
-                <div class="card text-white bg-primary shadow">
+            <div class="card text-white bg-primary shadow">
 
-                    <div class="card-body">
+                <div class="card-body">
 
-                        <h5>Total Expenses</h5>
+                    <h5>Total Expenses</h5>
 
-                        <h2>₹{{ total }}</h2>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-6">
-
-                <div class="card text-white bg-success shadow">
-
-                    <div class="card-body">
-
-                        <h5>Total Transactions</h5>
-
-                        <h2>{{ total_transactions }}</h2>
-
-                    </div>
+                    <h2>₹{{ total }}</h2>
 
                 </div>
 
@@ -50,241 +32,262 @@ Expense Dashboard
 
         </div>
 
-        <!-- Expense Table -->
-<div class="card shadow mb-4">
+        <div class="col-md-6">
 
-    <div class="card-body">
+            <div class="card text-white bg-success shadow">
 
-        <form method="GET" action="{{ url_for('viewExpense') }}">
+                <div class="card-body">
 
-            <div class="row g-2">
+                    <h5>Total Transactions</h5>
 
-                <div class="col-md-5">
-
-                    <input
-                        type="text"
-                        class="form-control"
-                        name="search"
-                        placeholder="Search by event..."
-                        value="{{ search }}">
-
-                </div>
-
-                <div class="col-md-5">
-
-                    <select
-                        name="sort"
-                        class="form-select">
-
-                        <option value="">Sort By</option>
-
-                        <option value="date_desc"
-                            {% if sort=="date_desc" %}selected{% endif %}>
-                            Newest First
-                        </option>
-
-                        <option value="date_asc"
-                            {% if sort=="date_asc" %}selected{% endif %}>
-                            Oldest First
-                        </option>
-
-                        <option value="amount_asc"
-                            {% if sort=="amount_asc" %}selected{% endif %}>
-                            Amount (Low → High)
-                        </option>
-
-                        <option value="amount_desc"
-                            {% if sort=="amount_desc" %}selected{% endif %}>
-                            Amount (High → Low)
-                        </option>
-
-                        <option value="event_asc"
-                            {% if sort=="event_asc" %}selected{% endif %}>
-                            Event (A-Z)
-                        </option>
-
-                        <option value="event_desc"
-                            {% if sort=="event_desc" %}selected{% endif %}>
-                            Event (Z-A)
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <div class="col-md-2">
-
-                    <button
-                        class="btn btn-primary w-100">
-
-                        Apply
-
-                    </button>
+                    <h2>{{ total_transactions }}</h2>
 
                 </div>
 
             </div>
 
-        </form>
+        </div>
+
+    </div>
+
+    <!-- Expense Table -->
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <form method="GET" action="{{ url_for('viewExpense') }}">
+
+                <div class="row g-2">
+
+                    <div class="col-md-5">
+
+                        <input type="text" class="form-control" name="search" placeholder="Search by event..."
+                            value="{{ search }}">
+
+                    </div>
+
+                    <div class="col-md-5">
+
+                        <select name="sort" class="form-select">
+
+                            <option value="">Sort By</option>
+
+                            <option value="date_desc" {% if sort=="date_desc" %}selected{% endif %}>
+                                Newest First
+                            </option>
+
+                            <option value="date_asc" {% if sort=="date_asc" %}selected{% endif %}>
+                                Oldest First
+                            </option>
+
+                            <option value="amount_asc" {% if sort=="amount_asc" %}selected{% endif %}>
+                                Amount (Low → High)
+                            </option>
+
+                            <option value="amount_desc" {% if sort=="amount_desc" %}selected{% endif %}>
+                                Amount (High → Low)
+                            </option>
+
+                            <option value="event_asc" {% if sort=="event_asc" %}selected{% endif %}>
+                                Event (A-Z)
+                            </option>
+
+                            <option value="event_desc" {% if sort=="event_desc" %}selected{% endif %}>
+                                Event (Z-A)
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button class="btn btn-primary w-100">
+
+                            Apply
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            <h4 class="mb-0">
+                All Expenses
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if expenses %}
+
+            <table class="table table-striped table-hover align-middle">
+
+                <thead class="table-secondary">
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Event</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for item in expenses %}
+
+                    <tr>
+
+                        <td>{{ item.id }}</td>
+
+                        <td>{{ item.date }}</td>
+
+                        <td>{{ item.event }}</td>
+
+                        <td>₹{{ "%.2f"|format(item.amount) }}</td>
+
+                        <td>
+
+                            <a href="{{ url_for('editExpense', id=item.id) }}" class="btn btn-warning btn-sm">
+                                Edit
+                            </a>
+
+                            <a href="{{ url_for('deleteExpense', id=item.id) }}" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure you want to delete this expense?');">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="alert alert-info text-center">
+
+                No expenses found.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- Category Summary -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-secondary text-white">
+
+            <h4 class="mb-0">
+                Expense Distribution
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="w-50 mx-auto">
+
+                <canvas id="expenseChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Add Expense Button -->
+
+    <div class="text-center mb-5">
+
+        <a href="{{ url_for('add') }}" class="btn btn-success btn-lg">
+
+            + Add New Expense
+
+        </a>
 
     </div>
 
 </div>
 
-        <div class="card shadow mb-4">
+{% endblock %}
 
-            <div class="card-header bg-dark text-white">
+{% block scripts %}
 
-                <h4 class="mb-0">
-                    All Expenses
-                </h4>
+<script>
 
-            </div>
+    const labels = {{ chart_labels | tojson }};
+    const values = {{ chart_values | tojson }};
 
-            <div class="card-body">
+    const ctx = document.getElementById("expenseChart");
 
-                {% if expenses %}
+    new Chart(ctx, {
 
-                <table class="table table-striped table-hover align-middle">
+        type: "pie",
 
-                    <thead class="table-secondary">
+        data: {
 
-                        <tr>
+            labels: labels,
 
-                            <th>ID</th>
-                            <th>Date</th>
-                            <th>Event</th>
-                            <th>Amount</th>
-                            <th>Action</th>
+            datasets: [{
 
-                        </tr>
+                label: "Expenses",
 
-                    </thead>
+                data: values,
 
-                    <tbody>
+                borderWidth: 1
 
-                        {% for item in expenses %}
+            }]
 
-                        <tr>
+        },
 
-                            <td>{{ item.id }}</td>
+        options: {
 
-                            <td>{{ item.date }}</td>
+            responsive: true,
 
-                            <td>{{ item.event }}</td>
+            maintainAspectRatio: true,
 
-                            <td>₹{{ "%.2f"|format(item.amount) }}</td>
+            aspectRatio: 1.5,
 
-                            <td>
+            plugins: {
 
-                                <a href="{{ url_for('editExpense', id=item.id) }}"
-                                   class="btn btn-warning btn-sm">
-                                    Edit
-                                </a>
+                legend: {
 
-                                <a href="{{ url_for('deleteExpense', id=item.id) }}"
-                                   class="btn btn-danger btn-sm"
-                                   onclick="return confirm('Are you sure you want to delete this expense?');">
-                                    Delete
-                                </a>
+                    position: "bottom"
 
-                            </td>
+                }
 
-                        </tr>
+            }
 
-                        {% endfor %}
+        }
 
-                    </tbody>
+    });
 
-                </table>
-
-                {% else %}
-
-                <div class="alert alert-info text-center">
-
-                    No expenses found.
-
-                </div>
-
-                {% endif %}
-
-            </div>
-
-        </div>
-
-        <!-- Category Summary -->
-
-        <div class="card shadow mb-4">
-
-            <div class="card-header bg-secondary text-white">
-
-                <h4 class="mb-0">
-                    Category Summary
-                </h4>
-
-            </div>
-
-            <div class="card-body">
-
-                {% if category_summary %}
-
-                <table class="table table-bordered">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Category</th>
-                            <th>Total Amount</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        {% for category, amount in category_summary.items() %}
-
-                        <tr>
-
-                            <td>{{ category }}</td>
-
-                            <td>₹{{ "%.2f"|format(amount) }}</td>
-
-                        </tr>
-
-                        {% endfor %}
-
-                    </tbody>
-
-                </table>
-
-                {% else %}
-
-                <div class="alert alert-warning text-center">
-
-                    No category data available.
-
-                </div>
-
-                {% endif %}
-
-            </div>
-
-        </div>
-
-        <!-- Add Expense Button -->
-
-        <div class="text-center mb-5">
-
-            <a href="{{ url_for('add') }}" class="btn btn-success btn-lg">
-
-                + Add New Expense
-
-            </a>
-
-        </div>
-
-    </div>
+</script>
 
 {% endblock %}

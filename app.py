@@ -95,6 +95,9 @@ def viewExpense():
         else:
             category_summary[expense.event] = expense.amount
 
+        chart_labels = list(category_summary.keys())
+        chart_values = list(category_summary.values())
+
     return render_template(
         "expenses.html",
         expenses=expenses,
@@ -102,7 +105,10 @@ def viewExpense():
         total_transactions=len(expenses),
         category_summary=category_summary,
         search=search,
-        sort=sort
+        sort=sort,
+
+        chart_labels=chart_labels,
+        chart_values=chart_values
     )
 
 @app.route("/delete/<int:id>")
