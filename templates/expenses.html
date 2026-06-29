@@ -16,15 +16,15 @@ Expense Dashboard
 
     <div class="row mb-4">
 
-        <div class="col-md-6">
+        <div class="col-md-4 mb-3">
 
-            <div class="card text-white bg-primary shadow">
+            <div class="card bg-primary text-white shadow">
 
-                <div class="card-body">
+                <div class="card-body text-center">
 
                     <h5>Total Expenses</h5>
 
-                    <h2>₹{{ total }}</h2>
+                    <h3>₹{{ "%.2f"|format(total) }}</h3>
 
                 </div>
 
@@ -32,15 +32,79 @@ Expense Dashboard
 
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4 mb-3">
 
-            <div class="card text-white bg-success shadow">
+            <div class="card bg-success text-white shadow">
 
-                <div class="card-body">
+                <div class="card-body text-center">
 
                     <h5>Total Transactions</h5>
 
-                    <h2>{{ total_transactions }}</h2>
+                    <h3>{{ total_transactions }}</h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card bg-warning text-dark shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Highest Expense</h5>
+
+                    <h3>₹{{ "%.2f"|format(highest_expense) }}</h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card bg-info text-white shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Average Expense</h5>
+
+                    <h3>₹{{ "%.2f"|format(average_expense) }}</h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card bg-secondary text-white shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Categories</h5>
+
+                    <h3>{{ total_categories }}</h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card bg-danger text-white shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>Biggest Category</h5>
+
+                    <h3>{{ biggest_category }}</h3>
 
                 </div>
 

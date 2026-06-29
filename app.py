@@ -57,13 +57,19 @@ def viewExpense():
 
     query = Expense.query
 
+    # -------------------------
     # Search
+    # -------------------------
+
     if search:
         query = query.filter(
             Expense.event.ilike(f"%{search}%")
         )
 
+    # -------------------------
     # Sorting
+    # -------------------------
+
     if sort == "date_desc":
         query = query.order_by(desc(Expense.date))
 
@@ -84,7 +90,13 @@ def viewExpense():
 
     expenses = query.all()
 
+    # -------------------------
+    # Dashboard Statistics
+    # -------------------------
+
     total = sum(expense.amount for expense in expenses)
+
+    total_transactions = len(expenses)
 
     category_summary = {}
 
@@ -95,20 +107,44 @@ def viewExpense():
         else:
             category_summary[expense.event] = expense.amount
 
-        chart_labels = list(category_summary.keys())
-        chart_values = list(category_summary.values())
+    chart_labels = list(category_summary.keys())
+    chart_values = list(category_summary.values())
+
+    highest_expense = max(
+        (expense.amount for expense in expenses),
+        default=0
+    )
+
+    average_expense = (
+        total / total_transactions
+        if total_transactions > 0
+        else 0
+    )
+
+    total_categories = len(category_summary)
+
+    if category_summary:
+        biggest_category = max(
+            category_summary,
+            key=category_summary.get
+        )
+    else:
+        biggest_category = "N/A"
 
     return render_template(
         "expenses.html",
         expenses=expenses,
         total=total,
-        total_transactions=len(expenses),
+        total_transactions=total_transactions,
         category_summary=category_summary,
         search=search,
         sort=sort,
-
         chart_labels=chart_labels,
-        chart_values=chart_values
+        chart_values=chart_values,
+        highest_expense=highest_expense,
+        average_expense=average_expense,
+        total_categories=total_categories,
+        biggest_category=biggest_category
     )
 
 @app.route("/delete/<int:id>")
