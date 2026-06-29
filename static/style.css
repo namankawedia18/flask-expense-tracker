@@ -1,0 +1,407 @@
+/* =============================================
+   Expense Tracker — Custom Styles
+   Palette: Deep Navy · Emerald · Warm White · Coral accent
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ── Root Tokens ─────────────────────────────── */
+:root {
+  --navy:        #0f1f3d;
+  --navy-mid:    #1a3158;
+  --emerald:     #0f9d74;
+  --emerald-lt:  #12b886;
+  --coral:       #f05545;
+  --amber:       #f59e0b;
+  --sky:         #3b82f6;
+  --bg:          #f4f6fb;
+  --surface:     #ffffff;
+  --border:      #e2e8f0;
+  --text:        #1e293b;
+  --text-muted:  #64748b;
+  --radius:      12px;
+  --radius-sm:   8px;
+  --shadow-sm:   0 1px 4px rgba(15,31,61,0.08);
+  --shadow-md:   0 4px 16px rgba(15,31,61,0.12);
+  --shadow-lg:   0 8px 32px rgba(15,31,61,0.16);
+  --transition:  0.2s ease;
+}
+
+/* ── Base Reset ──────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+
+/* ── Navbar ──────────────────────────────────── */
+.navbar {
+  background: var(--navy) !important;
+  padding: 0.85rem 0;
+  border-bottom: 3px solid var(--emerald);
+  box-shadow: var(--shadow-md);
+}
+
+.navbar-brand {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #fff !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar-brand::before {
+  content: '₹';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: var(--emerald);
+  color: #fff;
+  border-radius: 7px;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+}
+
+.nav-link {
+  color: rgba(255,255,255,0.78) !important;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.9rem !important;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background var(--transition);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #fff !important;
+  background: rgba(255,255,255,0.1);
+}
+
+/* ── Cards ───────────────────────────────────── */
+.card {
+  border: none;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card-header {
+  border-radius: var(--radius) var(--radius) 0 0 !important;
+  border-bottom: none;
+  padding: 1rem 1.4rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* ── Stat Cards (Dashboard) ──────────────────── */
+/* Override Bootstrap bg-* cards with a signature left-border design */
+.card.bg-primary,
+.card.bg-success,
+.card.bg-warning,
+.card.bg-info,
+.card.bg-secondary,
+.card.bg-danger {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border-left: 5px solid;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.card.bg-primary  { border-color: var(--sky); }
+.card.bg-success  { border-color: var(--emerald); }
+.card.bg-warning  { border-color: var(--amber); }
+.card.bg-info     { border-color: #06b6d4; }
+.card.bg-secondary{ border-color: #94a3b8; }
+.card.bg-danger   { border-color: var(--coral); }
+
+/* Shimmer blob behind stat cards */
+.card.bg-primary::after,
+.card.bg-success::after,
+.card.bg-warning::after,
+.card.bg-info::after,
+.card.bg-secondary::after,
+.card.bg-danger::after {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  opacity: 0.07;
+}
+
+.card.bg-primary::after   { background: var(--sky); }
+.card.bg-success::after   { background: var(--emerald); }
+.card.bg-warning::after   { background: var(--amber); }
+.card.bg-info::after      { background: #06b6d4; }
+.card.bg-secondary::after { background: #94a3b8; }
+.card.bg-danger::after    { background: var(--coral); }
+
+/* Stat card text override */
+.card.bg-primary  h5,
+.card.bg-success  h5,
+.card.bg-warning  h5,
+.card.bg-info     h5,
+.card.bg-secondary h5,
+.card.bg-danger   h5 {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.card.bg-primary  h3,
+.card.bg-success  h3,
+.card.bg-warning  h3,
+.card.bg-info     h3,
+.card.bg-secondary h3,
+.card.bg-danger   h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 0;
+}
+
+.card.bg-warning .card-body { color: var(--text) !important; }
+
+/* ── Card Headers (coloured) ─────────────────── */
+.card-header.bg-dark      { background: var(--navy) !important; color: #fff; }
+.card-header.bg-info      { background: linear-gradient(135deg, #0284c7, #06b6d4) !important; color: #fff; }
+.card-header.bg-primary   { background: linear-gradient(135deg, var(--navy-mid), var(--sky)) !important; color: #fff; }
+.card-header.bg-success   { background: linear-gradient(135deg, #065f46, var(--emerald-lt)) !important; color: #fff; }
+.card-header.bg-warning   { background: linear-gradient(135deg, #d97706, var(--amber)) !important; color: #fff !important; }
+
+/* ── Buttons ─────────────────────────────────── */
+.btn {
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 1.1rem;
+  transition: all var(--transition);
+  border: none;
+}
+
+.btn-success {
+  background: var(--emerald);
+  color: #fff;
+}
+.btn-success:hover  { background: #0a8a64; color: #fff; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(15,157,116,0.35); }
+
+.btn-primary {
+  background: var(--navy);
+  color: #fff;
+}
+.btn-primary:hover  { background: var(--navy-mid); color: #fff; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(15,31,61,0.3); }
+
+.btn-warning {
+  background: var(--amber);
+  color: #fff;
+}
+.btn-warning:hover  { background: #d97706; color: #fff; transform: translateY(-1px); }
+
+.btn-danger {
+  background: var(--coral);
+  color: #fff;
+}
+.btn-danger:hover   { background: #d63b2a; color: #fff; transform: translateY(-1px); }
+
+.btn-secondary {
+  background: #e2e8f0;
+  color: var(--text);
+}
+.btn-secondary:hover { background: #cbd5e1; color: var(--text); transform: translateY(-1px); }
+
+/* Outline buttons */
+.btn-outline-primary  { border: 2px solid var(--navy);     color: var(--navy); }
+.btn-outline-primary:hover  { background: var(--navy);     color: #fff; }
+.btn-outline-success  { border: 2px solid var(--emerald);  color: var(--emerald); }
+.btn-outline-success:hover  { background: var(--emerald);  color: #fff; }
+.btn-outline-warning  { border: 2px solid var(--amber);    color: #92600a; }
+.btn-outline-warning:hover  { background: var(--amber);    color: #fff; }
+.btn-outline-danger   { border: 2px solid var(--coral);    color: var(--coral); }
+.btn-outline-danger:hover   { background: var(--coral);    color: #fff; }
+.btn-outline-secondary{ border: 2px solid #94a3b8;         color: var(--text-muted); }
+.btn-outline-secondary:hover{ background: #94a3b8;         color: #fff; }
+
+/* ── Forms ───────────────────────────────────── */
+.form-control,
+.form-select {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.9rem;
+  font-size: 0.9rem;
+  color: var(--text);
+  background: #fafbfc;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--emerald);
+  box-shadow: 0 0 0 3px rgba(15,157,116,0.15);
+  background: #fff;
+  outline: none;
+}
+
+.form-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+
+/* ── Table ───────────────────────────────────── */
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table thead th {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  border-bottom: 2px solid var(--border);
+  padding: 0.85rem 1rem;
+  background: #f8fafc;
+}
+
+.table tbody td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.table tbody tr:last-child td { border-bottom: none; }
+
+.table-striped tbody tr:nth-of-type(odd) { background: #f8fafc; }
+.table-hover tbody tr:hover { background: #eef6f3 !important; }
+
+.table-secondary th { background: #f1f5f9 !important; }
+
+/* ── Alerts ──────────────────────────────────── */
+.alert {
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.9rem 1.2rem;
+  border-left: 4px solid;
+}
+
+.alert-success { background: #ecfdf5; color: #065f46; border-color: var(--emerald); }
+.alert-danger  { background: #fef2f2; color: #991b1b; border-color: var(--coral); }
+.alert-warning { background: #fffbeb; color: #92400e; border-color: var(--amber); }
+.alert-info    { background: #eff6ff; color: #1e40af; border-color: var(--sky); }
+
+/* ── Index / Home Page ───────────────────────── */
+.display-4 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 2.8rem;
+  color: var(--navy);
+  letter-spacing: -0.03em;
+}
+
+.lead {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+/* Home hero subtle decoration */
+.text-center.mt-5 {
+  padding-top: 3rem;
+}
+
+/* ── Add / Edit Form Cards ───────────────────── */
+.card-header.bg-success h3,
+.card-header.bg-warning h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.25rem;
+  margin: 0;
+  color: #fff;
+}
+
+/* ── Footer ──────────────────────────────────── */
+footer {
+  background: var(--navy) !important;
+  color: rgba(255,255,255,0.65) !important;
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  border-top: 2px solid var(--emerald);
+}
+
+footer p { color: inherit !important; }
+
+/* ── Quick Filter Buttons spacing ───────────── */
+.btn-sm {
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8rem;
+  border-radius: 6px;
+}
+
+.mb-3 .btn-sm + .btn-sm { margin-left: 0.4rem; }
+
+/* ── Page Titles ─────────────────────────────── */
+h1.text-center {
+  font-size: 2rem;
+  color: var(--navy);
+}
+
+/* ── Scrollbar (Webkit) ──────────────────────── */
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 768px) {
+  .display-4 { font-size: 2rem; }
+  .card.bg-primary h3,
+  .card.bg-success h3,
+  .card.bg-warning h3,
+  .card.bg-info    h3,
+  .card.bg-secondary h3,
+  .card.bg-danger  h3 { font-size: 1.4rem; }
+}
