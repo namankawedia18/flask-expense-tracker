@@ -55,7 +55,16 @@ def viewExpense():
     search = request.args.get("search", "")
     sort = request.args.get("sort", "")
 
+    from_date = request.args.get("from_date", "")
+    to_date = request.args.get("to_date", "")
+
     query = Expense.query
+
+    if from_date:
+        query = query.filter(Expense.date >= from_date)
+
+    if to_date:
+        query = query.filter(Expense.date <= to_date)
 
     # -------------------------
     # Search
@@ -110,6 +119,29 @@ def viewExpense():
     chart_labels = list(category_summary.keys())
     chart_values = list(category_summary.values())
 
+    # -------------------------
+    # Monthly Summary
+    # -------------------------
+
+    monthly_summary = {}
+
+    for expense in expenses:
+
+        month = expense.date[:7]      # Example: 2026-06
+
+        if month in monthly_summary:
+
+            monthly_summary[month] += expense.amount
+
+        else:
+
+            monthly_summary[month] = expense.amount
+
+
+    month_labels = list(monthly_summary.keys())
+
+    month_values = list(monthly_summary.values())
+
     highest_expense = max(
         (expense.amount for expense in expenses),
         default=0
@@ -141,10 +173,14 @@ def viewExpense():
         sort=sort,
         chart_labels=chart_labels,
         chart_values=chart_values,
+        month_labels=month_labels,
+        month_values=month_values,
         highest_expense=highest_expense,
         average_expense=average_expense,
         total_categories=total_categories,
-        biggest_category=biggest_category
+        biggest_category=biggest_category,
+        from_date=from_date,
+        to_date=to_date
     )
 
 @app.route("/delete/<int:id>")
