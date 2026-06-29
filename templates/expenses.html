@@ -119,30 +119,64 @@ Expense Dashboard
         <div class="card-header bg-info text-white">
 
             <h5 class="mb-0">
-                Filter by Date
+                Filter Expenses
             </h5>
 
         </div>
 
         <div class="card-body">
 
-            <form method="GET" action="{{ url_for('viewExpense') }}">
+            <!-- Quick Filters -->
+
+            <div class="mb-3">
+
+                <a href="{{ url_for('viewExpense', quick='today') }}" class="btn btn-outline-primary btn-sm">
+                    Today
+                </a>
+
+                <a href="{{ url_for('viewExpense', quick='week') }}" class="btn btn-outline-success btn-sm">
+                    This Week
+                </a>
+
+                <a href="{{ url_for('viewExpense', quick='month') }}" class="btn btn-outline-warning btn-sm">
+                    This Month
+                </a>
+
+                <a href="{{ url_for('viewExpense', quick='year') }}" class="btn btn-outline-danger btn-sm">
+                    This Year
+                </a>
+
+                <a href="{{ url_for('viewExpense') }}" class="btn btn-outline-secondary btn-sm">
+                    All
+                </a>
+
+            </div>
+
+            <hr>
+
+            <!-- Custom Date Filter -->
+
+            <form method="GET">
 
                 <div class="row">
 
                     <div class="col-md-5">
 
-                        <label class="form-label">From</label>
+                        <label class="form-label">
+                            From
+                        </label>
 
-                        <input type="date" name="from_date" class="form-control" value="{{ from_date }}">
+                        <input type="date" class="form-control" name="from_date" value="{{ from_date }}">
 
                     </div>
 
                     <div class="col-md-5">
 
-                        <label class="form-label">To</label>
+                        <label class="form-label">
+                            To
+                        </label>
 
-                        <input type="date" name="to_date" class="form-control" value="{{ to_date }}">
+                        <input type="date" class="form-control" name="to_date" value="{{ to_date }}">
 
                     </div>
 

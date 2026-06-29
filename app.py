@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
+from datetime import date, timedelta
 
 app = Flask(__name__)
 
@@ -55,10 +56,44 @@ def viewExpense():
     search = request.args.get("search", "")
     sort = request.args.get("sort", "")
 
+    quick = request.args.get("quick", "")
+
     from_date = request.args.get("from_date", "")
     to_date = request.args.get("to_date", "")
 
     query = Expense.query
+
+    today = date.today()
+
+    if quick == "today":
+
+        query = query.filter(
+            Expense.date == str(today)
+        )
+
+    elif quick == "week":
+
+        week_start = today - timedelta(days=today.weekday())
+
+        query = query.filter(
+            Expense.date >= str(week_start)
+        )
+
+    elif quick == "month":
+
+        month_start = today.replace(day=1)
+
+        query = query.filter(
+            Expense.date >= str(month_start)
+        )
+
+    elif quick == "year":
+
+        year_start = date(today.year, 1, 1)
+
+        query = query.filter(
+            Expense.date >= str(year_start)
+        )
 
     if from_date:
         query = query.filter(Expense.date >= from_date)
